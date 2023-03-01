@@ -1,7 +1,7 @@
-use enigo::*;
+//use enigo::*;
 
 fn main() {
-    let mut enigo = Enigo::new();
+    //let mut enigo = Enigo::new();
 
 }
 
@@ -14,35 +14,36 @@ pub struct Pin {
 impl Pin {
     fn new() -> Self {
         Pin {
-            pin: 0000.clamp(0,9999),
-            default: 0000.clamp(0,9999)
+            pin: 0000,
+            default: 0000
         }
     }
 
-    fn new(default:u32) -> Self {
-        Pin {
-            pin: default.clamp(0,9999),
-            default: default.clamp(0,9999)
-        }
+    fn next(&mut self) {
+        self.pin += 1;
     }
 
-    fn next(&mut self) -> Self {
-        Pin {
-            pin: (self.pin + 1).clamp(0,9999)
-        }
-    }
+    // TODO: add reset function
 }
 
 #[cfg(test)]
-mod pin_tests {
+mod tests {
     use super::*;
-    
+
     #[test]
-    fn create_new_pin() {
+    fn next_test() {
         let mut pin: Pin = Pin::new();
-        assert_eq!{pin, mut Pin {
-            pin: 0000.clamp(0,9999),
-            default:0000.clamp(0,9999)
-        }}
+        assert_eq!{pin.pin,0000};
+        pin.next();
+        assert_eq!(pin.pin,0001);
     }
+
+    #[test]
+    fn full_next_test() {
+        let mut pin: Pin = Pin::new();
+        for i in 0..10000 {
+            assert_eq!(pin.pin, i);
+            pin.next();
+        }
+    } 
 }
