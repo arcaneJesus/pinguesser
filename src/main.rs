@@ -1,7 +1,4 @@
-//use enigo::*;
-
 fn main() {
-    //let mut enigo = Enigo::new();
 
 }
 
@@ -23,7 +20,9 @@ impl Pin {
         self.pin += 1;
     }
 
-    // TODO: add reset function
+    fn reset(&mut self) {
+        self.pin = self.default;
+    }
 }
 
 #[cfg(test)]
@@ -46,4 +45,14 @@ mod tests {
             pin.next();
         }
     } 
+
+    #[test]
+    fn reset_test() {
+        let mut pin: Pin = Pin::new();
+        pin.next();
+        pin.next();
+        assert_eq!(pin.pin, 2);
+        pin.reset();
+        assert_eq!(pin.pin,0);
+    }
 }
