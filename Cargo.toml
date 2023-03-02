@@ -2,3 +2,6 @@
 name = "pinguesser"
 version = "0.1.0"
 edition = "2021"
+
+[dependencies]
+geckodriver = "0.32.2"
