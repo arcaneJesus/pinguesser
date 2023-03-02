@@ -3,6 +3,7 @@ fn main() {
 }
 
 // stores four positive integers
+#[derive(Copy,Clone)]
 pub struct Pin {
     pub pin: u32,
     default: u32
@@ -14,6 +15,12 @@ impl Pin {
             pin: 0000,
             default: 0000
         }
+    }
+
+    fn default(&mut self, default: u32) -> Self {
+        self.default = default;
+        self.reset();
+        return *self;
     }
 
     fn next(&mut self) {
@@ -35,6 +42,7 @@ mod tests {
         assert_eq!{pin.pin,0000};
         pin.next();
         assert_eq!(pin.pin,0001);
+        assert_eq!(pin.default, 0000);
     }
 
     #[test]
@@ -47,12 +55,35 @@ mod tests {
     } 
 
     #[test]
+    fn default_construct_test() {
+        let mut pin: Pin = Pin::new().default(1111);
+        assert_eq!(pin.pin, 1111);
+        assert_eq!(pin.default, 1111);
+        pin.next();
+        pin.next();
+        pin.reset();
+        assert_eq!(pin.pin, 1111);
+    }
+
+    #[test]
+    fn default_set_test() {
+        let mut pin: Pin = Pin::new();
+        pin.default(1111);
+        assert_eq!(pin.pin, 1111);
+        assert_eq!(pin.default, 1111);
+        pin.next();
+        pin.next();
+        pin.reset();
+        assert_eq!(pin.pin, 1111)
+    }
+
+    #[test]
     fn reset_test() {
         let mut pin: Pin = Pin::new();
         pin.next();
         pin.next();
-        assert_eq!(pin.pin, 2);
+        assert_eq!(pin.pin, 0002);
         pin.reset();
-        assert_eq!(pin.pin,0);
+        assert_eq!(pin.pin,0000);
     }
 }
